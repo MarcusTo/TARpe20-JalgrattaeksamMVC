@@ -93,11 +93,11 @@ namespace JalgrattaeksamMVC.Controllers
 				.Where(e => e.Teooria >= 9 && e.Ring == -1);
 			return View(await model.ToListAsync());
 		}
-		// GET: Eksams/Tänav
+		// GET: Eksams/tänav
 		public async Task<IActionResult> Tänav()
 		{
-			var model = _context.Eksam
-				.Where(e => e.Ring == 1 && e.Slaalom == 1 && e.Tänav == -1);
+			var model = _context.Eksam.Where(e => e.Ring == 1 && e.Slaalom == 1 && e.Tänav == -1);
+
 			return View(await model.ToListAsync());
 		}
 		// GET: Eksams/PassFail/Id
@@ -152,19 +152,17 @@ namespace JalgrattaeksamMVC.Controllers
 		// GET: Eksams/Luba
 		public async Task<IActionResult> Luba()
 		{
-			var model = _context.Eksam.Select(e =>
-			new LubaViewModel()
+			var model = _context.Eksam.Select(e => new LubaViewModel()
 			{
-				Id=e.Id,
 				Eesnimi = e.Eesnimi,
 				Perenimi = e.Perenimi,
 				Teooria = e.Teooria,
-				Ring = e.Ring==-1?".":e.Ring==1?"Õnnestus":"Põrus",
 				Slaalom = e.Slaalom == -1 ? "." : e.Slaalom == 1 ? "Õnnestus" : "Põrus",
+				Ring = e.Ring == -1 ? "." : e.Ring == 1 ? "Õnnestus" : "Põrus",
 				Tänav = e.Tänav == -1 ? "." : e.Tänav == 1 ? "Õnnestus" : "Põrus",
-				Luba = e.Luba == 1 ?"Väljastatud":e.Tänav == 1?"Väljasta":"."
+				Luba = e.Luba == 1 ? "Väljastatud" : e.Tänav == 1 ? "Väljasta" : "."
 			});
-				
+
 			return View(await model.ToListAsync());
 		}
 
